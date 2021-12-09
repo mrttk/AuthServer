@@ -1,0 +1,11 @@
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\bin\Debug\net5.0\AuthServer.Core.deps.json
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\bin\Debug\net5.0\AuthServer.Core.dll
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\bin\Debug\net5.0\ref\AuthServer.Core.dll
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\bin\Debug\net5.0\AuthServer.Core.pdb
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\AuthServer.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\AuthServer.Core.AssemblyInfoInputs.cache
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\AuthServer.Core.AssemblyInfo.cs
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\AuthServer.Core.csproj.CoreCompileInputs.cache
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\AuthServer.Core.dll
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\ref\AuthServer.Core.dll
+C:\Users\Black\source\repos\AuthServer\AuthServer.Core\obj\Debug\net5.0\AuthServer.Core.pdb
