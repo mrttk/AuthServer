@@ -36,7 +36,7 @@ namespace AuthServer.Service.Services
             return Response<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
         }
 
-        public async Task<Response<UserAppDto>> GeyUserByNameAsync(string userName)
+        public async Task<Response<UserAppDto>> GetUserByNameAsync(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
