@@ -1,8 +1,17 @@
 using AuthServer.Core.Condiguration;
+using AuthServer.Core.Models;
+using AuthServer.Core.Repositories;
+using AuthServer.Core.Services;
+using AuthServer.Core.UnitOfWork;
+using AuthServer.Data;
+using AuthServer.Data.Repositories;
+using AuthServer.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +37,28 @@ namespace AuthServer.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+            services.AddScoped(typeof(IServiceGeneric<,>), typeof(ServiceGeneric<,>));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServer"),sqlOptions=>
+                {
+                    sqlOptions.MigrationsAssembly("AuthServer.Data");
+                });
+            });
+
+            services.AddIdentity<UserApp, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
             services.Configure<CustomTokenOption>(Configuration.GetSection("TokenOption"));
             services.Configure<Client>(Configuration.GetSection("Clients"));
 
