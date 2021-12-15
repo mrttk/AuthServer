@@ -31,16 +31,16 @@ namespace AuthServer.Service.Services
             _unitOfWork = unitOfWork;
             _userRefreshTokenService = userRefreshTokenService;
         }
-        public async Task<Respose<TokenDto>> CreateTokenAsync(LoginDto loginDto)
+        public async Task<Response<TokenDto>> CreateTokenAsync(LoginDto loginDto)
         {
             if (loginDto == null) throw new ArgumentNullException(nameof(loginDto));
 
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
-            if (user == null) return Respose<TokenDto>.Fail("Email or password is wrong!", 400, true);
+            if (user == null) return Response<TokenDto>.Fail("Email or password is wrong!", 400, true);
 
             if (!await _userManager.CheckPasswordAsync(user, loginDto.Password))
-                return Respose<TokenDto>.Fail("Email or password is wrong!", 400, true);
+                return Response<TokenDto>.Fail("Email or password is wrong!", 400, true);
 
             var token = _tokenService.CreateToken(user);
 
@@ -60,38 +60,38 @@ namespace AuthServer.Service.Services
 
             await _unitOfWork.CommitAsync();
 
-            return Respose<TokenDto>.Success(token, 200);
+            return Response<TokenDto>.Success(token, 200);
 
         }
 
-        public Respose<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto)
+        public Response<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto)
         {
             var client = _clients.SingleOrDefault(x => x.Id == clientLoginDto.ClientId && x.Secret == clientLoginDto.ClientSecret);
 
             if (client == null)
             {
-                return Respose<ClientTokenDto>.Fail("ClientId or ClientSecret not found!", 404, true);
+                return Response<ClientTokenDto>.Fail("ClientId or ClientSecret not found!", 404, true);
             }
 
             var token = _tokenService.CreateTokenByClient(client);
 
-            return Respose<ClientTokenDto>.Success(token, 200);
+            return Response<ClientTokenDto>.Success(token, 200);
         }
 
-        public async Task<Respose<TokenDto>> CreateTokenByRefreshToken(string refreshToken)
+        public async Task<Response<TokenDto>> CreateTokenByRefreshToken(string refreshToken)
         {
             var existRefreshToken = await _userRefreshTokenService.Where(x => x.Code == refreshToken).SingleOrDefaultAsync();
 
             if (existRefreshToken == null)
             {
-                return Respose<TokenDto>.Fail("Refresh token not found!", 404, true);
+                return Response<TokenDto>.Fail("Refresh token not found!", 404, true);
             }
 
             var user = await _userManager.FindByIdAsync(existRefreshToken.UserId);
 
             if (user == null)
             {
-                return Respose<TokenDto>.Fail("UserId not found!", 404, true);
+                return Response<TokenDto>.Fail("UserId not found!", 404, true);
             }
 
             var tokenDto = _tokenService.CreateToken(user);
@@ -101,22 +101,22 @@ namespace AuthServer.Service.Services
 
             await _unitOfWork.CommitAsync();
 
-            return Respose<TokenDto>.Success(tokenDto, 200);
+            return Response<TokenDto>.Success(tokenDto, 200);
         }
 
-        public async Task<Respose<NoDataDto>> RevokeRefreshToken(string refreshToken)
+        public async Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken)
         {
             var exitRefreshToken = await _userRefreshTokenService.Where(x => x.Code == refreshToken).SingleOrDefaultAsync();
             if (exitRefreshToken == null)
             {
-                return Respose<NoDataDto>.Fail("Refresh token not found!", 404, true);
+                return Response<NoDataDto>.Fail("Refresh token not found!", 404, true);
             }
 
             _userRefreshTokenService.Remove(exitRefreshToken);
 
             await _unitOfWork.CommitAsync();
 
-            return Respose<NoDataDto>.Success(200);
+            return Response<NoDataDto>.Success(200);
         }
     }
 }

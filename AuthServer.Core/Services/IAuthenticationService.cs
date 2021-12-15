@@ -10,9 +10,9 @@ namespace AuthServer.Core.Services
 {
     public interface IAuthenticationService
     {
-        Task<Respose<TokenDto>> CreateTokenAsync(LoginDto login);
-        Task<Respose<TokenDto>> CreateTokenByRefreshToken(string refreshToken);
-        Task<Respose<NoDataDto>> RevokeRefreshToken(string refreshToken);
-        Respose<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto);
+        Task<Response<TokenDto>> CreateTokenAsync(LoginDto login);
+        Task<Response<TokenDto>> CreateTokenByRefreshToken(string refreshToken);
+        Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken);
+        Response<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto);
     }
 }
