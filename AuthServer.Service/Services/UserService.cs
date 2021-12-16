@@ -20,7 +20,7 @@ namespace AuthServer.Service.Services
             _userManager = userManager;
         }
 
-        public async Task<Respose<UserAppDto>> CreateUserAsync(CreateUserDto createUserDto)
+        public async Task<Response<UserAppDto>> CreateUserAsync(CreateUserDto createUserDto)
         {
             var user = new UserApp { Email = createUserDto.Email, UserName = createUserDto.UserName };
 
@@ -30,22 +30,22 @@ namespace AuthServer.Service.Services
             {
                 var errors = result.Errors.Select(x => x.Description).ToList();
 
-                return Respose<UserAppDto>.Fail(new ErrorDto(errors, true), 400);
+                return Response<UserAppDto>.Fail(new ErrorDto(errors, true), 400);
             }
 
-            return Respose<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
+            return Response<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
         }
 
-        public async Task<Respose<UserAppDto>> GeyUserByNameAsync(string userName)
+        public async Task<Response<UserAppDto>> GetUserByNameAsync(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
             if (user ==null)
             {
-                return Respose<UserAppDto>.Fail("UserName not found!", 404, true);
+                return Response<UserAppDto>.Fail("UserName not found!", 404, true);
             }
 
-            return Respose<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
+            return Response<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
 
         }
     }
