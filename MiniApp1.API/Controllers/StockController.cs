@@ -14,14 +14,15 @@ namespace MiniApp1.API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
+        [HttpGet]
         public IActionResult GetStock()
         {
             var userName = HttpContext.User.Identity.Name;
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
             //query with userId or userName from database
 
-            return Ok($"Stock operations=> User Name:{userName}-User Id:{userId}");
+            return Ok($"Stock operations=> User Name:{userName}-User Id:{userIdClaim.Value}");
         }
     }
 }
