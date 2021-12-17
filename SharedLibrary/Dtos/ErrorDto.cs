@@ -20,7 +20,7 @@ namespace SharedLibrary.Dtos
 
         public ErrorDto(List<string> errors, bool isShow)
         {
-            Errors = Errors;
+            Errors = errors;
             IsShow = isShow;
         }
     }
